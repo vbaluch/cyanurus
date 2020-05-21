@@ -1,0 +1,45 @@
+version: '3.6'
+services:
+  postgres:
+    # postgres:12.3
+    image: postgres@sha256:38eb50ceaf0bfe82a9c768e5537a012b58bb4fff0b0e4242e79dea992520c30f
+    ports:
+    - "5432:5432"
+    restart: always
+    volumes:
+    - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+  graphql-engine:
+    # hasura/graphql-engine:v1.2.1
+    image: hasura/graphql-engine@sha256:2e2819af734716790ca6c91372799eb310742e3cd68ea45bfd3b5640b3df98df 
+    ports:
+    - "8080:8080"
+    depends_on:
+    - "postgres"
+    restart: always
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: "${PG_CONNECTION_STRING}"
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
+      HASURA_GRAPHQL_JWT_SECRET: "${HASURA_GRAPHQL_JWT_SECRET}"
+      HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "anonymous"
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_GRAPHQL_ADMIN_SECRET}"
+  auth-token-enhancer:
+      build:
+        context: ./auth-token-enhancer
+      ports:
+      - "8081:8080"
+      depends_on:
+      - "postgres"
+      restart: always
+      environment:
+        NODE_ENV: "production"
+        PORT: "8080"
+        FIREBASE_DATABASE_URL: "${FIREBASE_DATABASE_URL}"
+        PG_CONNECTION_STRING: "${PG_CONNECTION_STRING}"
+        GOOGLE_APPLICATION_CREDENTIALS: "${GOOGLE_APPLICATION_CREDENTIALS}"
+      volumes:
+        - ./auth-token-enhancer/keys/:/tmp/keys
+volumes:
+  db_data:
