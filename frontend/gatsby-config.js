@@ -4,6 +4,7 @@ module.exports = {
     title: "Free Courses List",
     description: "List of free courses during the COVID-19 situation",
     author: "Free Courses List Team",
+    siteUrl: "https://www.freecourseslist.com",
   },
   plugins: [
     "gatsby-plugin-eslint",
@@ -51,5 +52,6 @@ module.exports = {
         },
       },
     },
+    "gatsby-plugin-sitemap",
   ],
 };
