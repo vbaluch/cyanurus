@@ -7,6 +7,13 @@ module.exports = {
     siteUrl: "https://www.freecourseslist.com",
   },
   plugins: [
+    {
+      resolve: "gatsby-plugin-google-analytics",
+      options: {
+        trackingId: process.env.GOOGLE_ANALYTICS_TRACKING_ID,
+        anonymize: true,
+      },
+    },
     "gatsby-plugin-eslint",
     "gatsby-plugin-react-helmet",
     {

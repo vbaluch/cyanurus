@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { graphql, Link } from "gatsby";
+import { OutboundLink } from "gatsby-plugin-google-analytics";
 
 export function CourseCard({ courseData }) {
   return (
@@ -19,7 +20,7 @@ export function CourseCard({ courseData }) {
           ))}
         </p>
         <div className="w-full font-bold text-xl text-gray-800 px-6 hover:text-blue-500">
-          <a href={courseData.link}>{courseData.title}</a>
+          <OutboundLink href={courseData.link}>{courseData.title}</OutboundLink>
         </div>
         <p className="courseCardDescription text-gray-800 text-base px-6 pb-6 mb-6">
           {courseData.description}
