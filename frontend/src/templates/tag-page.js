@@ -5,6 +5,7 @@ import { graphql } from "gatsby";
 import { Layout } from "../components/Layout";
 import { SEO } from "../components/SEO";
 import { CourseProvider } from "../components/CourseProvider";
+import { NewsletterForm } from "../components/NewsletterForm";
 
 export default function TagPage({ data }) {
   const CourseProviders = data.cyanurus.course_providers.map(
@@ -31,6 +32,9 @@ export default function TagPage({ data }) {
           </div>
         </section>
         {CourseProviders}
+        <div className="bg-white">
+          <NewsletterForm />
+        </div>
       </div>
     </Layout>
   );
